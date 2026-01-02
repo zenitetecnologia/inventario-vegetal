@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="zenite.iventariovegetal.client/zenite.iventariovegetal.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Zenite.IventarioVegetal.Server/Zenite.IventarioVegetal.Server.csproj" />
+</Solution>
