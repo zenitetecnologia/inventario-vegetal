@@ -1,4 +1,4 @@
-﻿    function Tabela({ listaProdutos, aoRemover }) {
+﻿function Tabela({ listaProdutos, aoRemover }) {
 
     if (!listaProdutos || listaProdutos.length === 0) {
         return (
@@ -45,7 +45,7 @@
                                     className="btn-delete"
                                     onClick={() => aoRemover(produto.id)}
                                     title="Remover Item"
-                                >                                   
+                                >
                                 </button>
                             </td>
                         </tr>

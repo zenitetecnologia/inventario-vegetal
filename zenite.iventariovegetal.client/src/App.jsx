@@ -41,8 +41,9 @@ function App() {
                     listaProdutos={itensSecos}
                     aoRemover={removerItem}
                 />
-
             </main>
+
+            {/*totais*/}
             <div className="section-header">
                 <h2>❄️ Estoque Refrigerado</h2>
                 <span className="total-badge">

@@ -1,4 +1,3 @@
-/* src/App.css */
 html, body, #root {
     margin: 0;
     padding: 0;
@@ -53,7 +52,7 @@ html, body, #root {
 }
 
     .custom-table th {
-        background-color: #f8f9fa; 
+        background-color: #f8f9fa;
         color: #444;
         font-weight: 600;
         text-align: left;
@@ -72,7 +71,7 @@ html, body, #root {
     }
 
     .custom-table tr:hover {
-        background-color: #fffdf0; 
+        background-color: #fffdf0;
     }
 
 .badge {
@@ -84,6 +83,11 @@ html, body, #root {
 .badge-blue {
     background-color: #e3f2fd;
     color: #1976d2;
+}
+
+.badge-red {
+    background-color: #ffebee;
+    color: #d32f2f;
 }
 
 .badge-gray {
@@ -100,7 +104,7 @@ html, body, #root {
 }
 
     .btn-delete:hover {
-        transform: scale(1.2); 
+        transform: scale(1.2);
     }
 
 .empty-state {
@@ -112,9 +116,10 @@ html, body, #root {
     border-radius: 8px;
     margin-top: 20px;
 }
+
 .section-header h2 {
     color: #333;
-    border-left: 5px solid #ffd700; 
+    border-left: 5px solid #ffd700;
     padding-left: 10px;
     margin-top: 0;
     margin-bottom: 10px;
@@ -124,6 +129,7 @@ html, body, #root {
 .spacer {
     height: 40px;
 }
+/*css da parte do total*/
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -133,10 +139,11 @@ html, body, #root {
 }
 
 .total-badge {
-    background-color: #333; 
-    color: #ffd700; 
+    background-color: #333;
+    color: #ffd700;
     padding: 5px 15px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 0.9rem;
 }
+
