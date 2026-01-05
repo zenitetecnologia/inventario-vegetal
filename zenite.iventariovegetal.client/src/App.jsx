@@ -13,6 +13,8 @@ function App() {
 
     const itensGeladeira = estoque.filter(item => item.geladeira === true);
     const itensSecos = estoque.filter(item => item.geladeira === false);
+    const totalGeladeira = itensGeladeira.reduce((acc, item) => acc + item.quantidade, 0);
+    const totalSecos = itensSecos.reduce((acc, item) => acc + item.quantidade, 0);
 
     return (
         <div className="layout-container">
@@ -41,6 +43,19 @@ function App() {
                 />
 
             </main>
+            <div className="section-header">
+                <h2>❄️ Estoque Refrigerado</h2>
+                <span className="total-badge">
+                    Total: {totalGeladeira.toFixed(2)}
+                </span>
+            </div>
+            <div className="section-header">
+                <h2>📦 Estoque Seco</h2>
+                <span className="total-badge">
+                    Total: {totalSecos.toFixed(2)}
+                </span>
+            </div>
+
         </div>
     );
 }
