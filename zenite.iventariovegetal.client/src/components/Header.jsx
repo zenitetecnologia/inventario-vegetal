@@ -1,7 +1,7 @@
 ﻿function Header() {
     return (
         <header className="top-header">
-            <h1>Inventário Vegetal/h1>
+            <h1>Inventário Vegetal</h1>
         </header>
     );
 }
