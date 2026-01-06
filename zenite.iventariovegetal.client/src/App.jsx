@@ -2,6 +2,7 @@
 import './App.css';
 import Header from './components/Header';
 import Tabela from './components/Tabela.jsx';
+import Formulario from './components/Formulario.jsx'; 
 
 function App() {
     const [estoque, setEstoque] = useState([]);
@@ -16,11 +17,35 @@ function App() {
     const totalGeladeira = itensGeladeira.reduce((acc, item) => acc + item.quantidade, 0);
     const totalSecos = itensSecos.reduce((acc, item) => acc + item.quantidade, 0);
 
+    const [formularioAberto, setFormularioAberto] = useState(false);
+    const adicionarProduto = (novoProduto) => {
+        const produtoComId = {
+            ...novoProduto,
+            id: Date.now()
+        };
+
+        setEstoque([...estoque, produtoComId]);
+    };
+
     return (
         <div className="layout-container">
             <Header />
 
             <main className="white-canvas">
+                {!formularioAberto ? (
+                    //se fechado: mostra botão para abrir
+                    <div className="actions-bar">
+                        <button className="btn-open-form" onClick={() => setFormularioAberto(true)}>
+                            + Novo Produto
+                        </button>
+                    </div>
+                ) : (
+                        //se aberto: mostra o formulário
+                    <Formulario
+                        aoCadastrar={(item) => { adicionarProduto(item); setFormularioAberto(false); }}
+                        aoCancelar={() => setFormularioAberto(false)}
+                    />
+                )}
 
                 {/*geladeira sim*/}
                 <div className="section-header">
