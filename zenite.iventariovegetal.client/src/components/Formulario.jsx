@@ -10,36 +10,27 @@ function Formulario({ aoCadastrar, aoCancelar }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (!item.descricao || !item.quantidade) return;
 
-        aoCadastrar({
-            ...item,
-            quantidade: Number(item.quantidade)
-        });
+        aoCadastrar({ ...item, quantidade: Number(item.quantidade) });
 
-        setItem({
-            descricao: '',
-            quantidade: '',
-            data: new Date().toISOString().split('T')[0],
-            geladeira: false
-        });
+        setItem({ descricao: '', quantidade: '', data: new Date().toISOString().split('T')[0], geladeira: false });
     };
 
     return (
         <form className="form-container" onSubmit={handleSubmit}>
 
-            {/* Campo Descrição */}
             <div className="form-group grow">
                 <label>Descrição</label>
                 <input
                     type="text"
+                    autoFocus
+                    placeholder="Ex: Tucunacá"
                     value={item.descricao}
                     onChange={e => setItem({ ...item, descricao: e.target.value })}
                 />
             </div>
 
-            {/* Campo Quantidade */}
             <div className="form-group">
                 <label>Quantidade</label>
                 <input
@@ -51,7 +42,6 @@ function Formulario({ aoCadastrar, aoCancelar }) {
                 />
             </div>
 
-            {/* Campo Data */}
             <div className="form-group">
                 <label>Data</label>
                 <input
@@ -61,7 +51,6 @@ function Formulario({ aoCadastrar, aoCancelar }) {
                 />
             </div>
 
-            {/* Campo Geladeira (Checkbox) */}
             <div className="form-group checkbox-group">
                 <label>
                     <input
@@ -73,17 +62,14 @@ function Formulario({ aoCadastrar, aoCancelar }) {
                 </label>
             </div>
 
-            {/* Botão de Ação */}
-            <button type="submit" className="btn-add">
-                + Adicionar
-            </button>
 
-            {/*Botões de Salvar e Cancelar */}
             <div className="form-actions">
                 <button type="button" className="btn-cancel" onClick={aoCancelar}>
                     Cancelar
                 </button>
-                <button type="submit">Salvar</button>
+                <button type="submit" className="btn-add">
+                    + Adicionar
+                </button>
             </div>
         </form>
     );

@@ -3,7 +3,7 @@
     if (!listaProdutos || listaProdutos.length === 0) {
         return (
             <div className="empty-state">
-                <p>Nenhum produto registrado no estoque.</p>
+                <p>Nenhum produto registrado nesta categoria.</p>
             </div>
         );
     }
@@ -13,7 +13,6 @@
             <table className="custom-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Descrição</th>
                         <th>Data</th>
                         <th>Qtd</th>
@@ -24,14 +23,11 @@
                 <tbody>
                     {listaProdutos.map((produto) => (
                         <tr key={produto.id}>
-                            <td>#{produto.id}</td>
                             <td>{produto.descricao}</td>
                             <td>{new Date(produto.data).toLocaleDateString()}</td>
-
                             <td style={{ fontWeight: 'bold' }}>
                                 {produto.quantidade}
                             </td>
-
                             <td>
                                 {produto.geladeira ? (
                                     <span className="badge badge-blue">❄️ Geladeira</span>
@@ -44,8 +40,9 @@
                                 <button
                                     className="btn-delete"
                                     onClick={() => aoRemover(produto.id)}
-                                    title="Remover Item"
+                                    title="Excluir Item"
                                 >
+                                    Excluir
                                 </button>
                             </td>
                         </tr>

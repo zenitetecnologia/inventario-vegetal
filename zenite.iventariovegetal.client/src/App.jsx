@@ -2,86 +2,94 @@
 import './App.css';
 import Header from './components/Header';
 import Tabela from './components/Tabela.jsx';
-import Formulario from './components/Formulario.jsx'; 
+import Formulario from './components/Formulario.jsx';
+import ModalConfirmacao from './components/ModalConfirmacao.jsx';
 
 function App() {
-    const [estoque, setEstoque] = useState([]);
+    const [estoque, setEstoque] = useState([]); 
+    const [formularioAberto, setFormularioAberto] = useState(false); 
+    const [modalAberto, setModalAberto] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
 
-    const removerItem = (id) => {
-        if (!confirm("Tem certeza que deseja apagar?")) return;
-        setEstoque(estoque.filter(item => item.id !== id));
+    const adicionarProduto = (novoProduto) => {
+        const produtoComId = { ...novoProduto, id: Date.now() };
+        setEstoque([...estoque, produtoComId]);
+        setFormularioAberto(false);
+    };
+
+    const solicitarRemocao = (id) => {
+        setIdParaExcluir(id);
+        setModalAberto(true);
+    };
+
+    const confirmarRemocao = () => {
+        if (idParaExcluir !== null) {
+            setEstoque(estoque.filter(item => item.id !== idParaExcluir));
+        }
+        fecharModal();
+    };
+
+    const fecharModal = () => {
+        setModalAberto(false);
+        setIdParaExcluir(null);
     };
 
     const itensGeladeira = estoque.filter(item => item.geladeira === true);
     const itensSecos = estoque.filter(item => item.geladeira === false);
+
     const totalGeladeira = itensGeladeira.reduce((acc, item) => acc + item.quantidade, 0);
     const totalSecos = itensSecos.reduce((acc, item) => acc + item.quantidade, 0);
-
-    const [formularioAberto, setFormularioAberto] = useState(false);
-    const adicionarProduto = (novoProduto) => {
-        const produtoComId = {
-            ...novoProduto,
-            id: Date.now()
-        };
-
-        setEstoque([...estoque, produtoComId]);
-    };
 
     return (
         <div className="layout-container">
             <Header />
 
             <main className="white-canvas">
+                <ModalConfirmacao
+                    estaAberto={modalAberto}
+                    aoConfirmar={confirmarRemocao}
+                    aoCancelar={fecharModal}
+                />
+
                 {!formularioAberto ? (
-                    //se fechado: mostra botão para abrir
                     <div className="actions-bar">
-                        <button className="btn-open-form" onClick={() => setFormularioAberto(true)}>
+                        <button
+                            className="btn-open-form"
+                            onClick={() => setFormularioAberto(true)}
+                        >
                             + Novo Produto
                         </button>
                     </div>
                 ) : (
-                        //se aberto: mostra o formulário
                     <Formulario
-                        aoCadastrar={(item) => { adicionarProduto(item); setFormularioAberto(false); }}
+                        aoCadastrar={adicionarProduto}
                         aoCancelar={() => setFormularioAberto(false)}
                     />
                 )}
 
-                {/*geladeira sim*/}
+                <div className="spacer"></div>
+
                 <div className="section-header">
-                    <h2>❄️ Estoque Refrigerado (Geladeira)</h2>
+                    <h2>❄️ Estoque Refrigerado</h2>
+                    <span className="total-badge">Total: {totalGeladeira.toFixed(2)}</span>
                 </div>
                 <Tabela
                     listaProdutos={itensGeladeira}
-                    aoRemover={removerItem}
+                    aoRemover={solicitarRemocao}
                 />
 
                 <div className="spacer"></div>
 
-                {/*geladeira nao*/}
                 <div className="section-header">
-                    <h2>📦 Estoque Seco (Ambiente)</h2>
+                    <h2>📦 Estoque Seco</h2>
+                    <span className="total-badge">Total: {totalSecos.toFixed(2)}</span>
                 </div>
                 <Tabela
                     listaProdutos={itensSecos}
-                    aoRemover={removerItem}
+                    aoRemover={solicitarRemocao}
                 />
+
             </main>
-
-            {/*totais*/}
-            <div className="section-header">
-                <h2>❄️ Estoque Refrigerado</h2>
-                <span className="total-badge">
-                    Total: {totalGeladeira.toFixed(2)}
-                </span>
-            </div>
-            <div className="section-header">
-                <h2>📦 Estoque Seco</h2>
-                <span className="total-badge">
-                    Total: {totalSecos.toFixed(2)}
-                </span>
-            </div>
-
         </div>
     );
 }
