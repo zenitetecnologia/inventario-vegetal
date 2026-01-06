@@ -2,7 +2,7 @@
 
 class Tabela extends Component {
     render() {
-        const { listaProdutos, aoRemover } = this.props;
+        const { listaProdutos, aoRemover, aoEditar } = this.props;
 
         if (!listaProdutos || listaProdutos.length === 0) {
             return (
@@ -17,15 +17,11 @@ class Tabela extends Component {
                 <table className="custom-table">
                     <thead>
                         <tr>
-                            <th style={{ width: '20%', textAlign: 'left' }}>Descrição</th>
-
+                            <th style={{ width: '30%', textAlign: 'left' }}>Descrição</th>
                             <th style={{ width: '15%', textAlign: 'center' }}>Data</th>
-
                             <th style={{ width: '10%', textAlign: 'center' }}>Qtd</th>
-
                             <th style={{ width: '15%', textAlign: 'center' }}>Tipo</th>
-
-                            <th style={{ width: '20%', textAlign: 'center' }}>Ações</th>
+                            <th style={{ width: '30%', textAlign: 'center' }}>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,9 +45,17 @@ class Tabela extends Component {
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
                                     <button
+                                        className="btn-edit"
+                                        onClick={() => aoEditar(produto)}
+                                        title="Editar"
+                                        style={{ marginRight: '10px' }}
+                                    >
+                                        Editar
+                                    </button>
+                                    <button
                                         className="btn-delete"
                                         onClick={() => aoRemover(produto.id)}
-                                        title="Excluir Item"
+                                        title="Excluir"
                                     >
                                         Excluir
                                     </button>

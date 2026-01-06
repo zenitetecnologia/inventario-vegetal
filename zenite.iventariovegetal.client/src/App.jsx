@@ -10,11 +10,27 @@ function App() {
     const [formularioAberto, setFormularioAberto] = useState(false);
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
+    const [itemParaEditar, setItemParaEditar] = useState(null);
 
-    const adicionarProduto = (novoProduto) => {
-        const produtoComId = { ...novoProduto, id: Date.now() };
-        setEstoque([...estoque, produtoComId]);
+    const salvarProduto = (produto) => {
+        if (produto.id) {
+            setEstoque(estoque.map(p => p.id === produto.id ? produto : p));
+        } else {
+            const produtoComId = { ...produto, id: Date.now() };
+            setEstoque([...estoque, produtoComId]);
+        }
         setFormularioAberto(false);
+        setItemParaEditar(null);
+    };
+
+    const prepararEdicao = (produto) => {
+        setItemParaEditar(produto);
+        setFormularioAberto(true);
+    };
+
+    const cancelarFormulario = () => {
+        setFormularioAberto(false);
+        setItemParaEditar(null);
     };
 
     const solicitarRemocao = (id) => {
@@ -62,8 +78,9 @@ function App() {
                     </div>
                 ) : (
                     <Formulario
-                        aoCadastrar={adicionarProduto}
-                        aoCancelar={() => setFormularioAberto(false)}
+                        aoCadastrar={salvarProduto}
+                        aoCancelar={cancelarFormulario}
+                        itemInicial={itemParaEditar}
                     />
                 )}
 
@@ -76,6 +93,7 @@ function App() {
                 <Tabela
                     listaProdutos={itensGeladeira}
                     aoRemover={solicitarRemocao}
+                    aoEditar={prepararEdicao}
                 />
 
                 <div className="spacer"></div>
@@ -87,6 +105,7 @@ function App() {
                 <Tabela
                     listaProdutos={itensSecos}
                     aoRemover={solicitarRemocao}
+                    aoEditar={prepararEdicao}
                 />
 
             </main>

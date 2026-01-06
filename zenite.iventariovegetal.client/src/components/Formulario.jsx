@@ -1,6 +1,6 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 
-function Formulario({ aoCadastrar, aoCancelar }) {
+function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
     const [item, setItem] = useState({
         descricao: '',
         quantidade: '',
@@ -8,13 +8,27 @@ function Formulario({ aoCadastrar, aoCancelar }) {
         geladeira: false
     });
 
+    useEffect(() => {
+        if (itemInicial) {
+            setItem({
+                ...itemInicial,
+                data: itemInicial.data.split('T')[0]
+            });
+        } else {
+            setItem({
+                descricao: '',
+                quantidade: '',
+                data: new Date().toISOString().split('T')[0],
+                geladeira: false
+            });
+        }
+    }, [itemInicial]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!item.descricao || !item.quantidade) return;
 
         aoCadastrar({ ...item, quantidade: Number(item.quantidade) });
-
-        setItem({ descricao: '', quantidade: '', data: new Date().toISOString().split('T')[0], geladeira: false });
     };
 
     return (
@@ -67,7 +81,7 @@ function Formulario({ aoCadastrar, aoCancelar }) {
                     Cancelar
                 </button>
                 <button type="submit" className="btn-add">
-                    + Adicionar
+                    {itemInicial ? 'Salvar' : '+ Adicionar'}
                 </button>
             </div>
         </form>
