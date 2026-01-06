@@ -25,7 +25,6 @@ function Formulario({ aoCadastrar, aoCancelar }) {
                 <input
                     type="text"
                     autoFocus
-                    placeholder="Ex: Tucunacá"
                     value={item.descricao}
                     onChange={e => setItem({ ...item, descricao: e.target.value })}
                 />
