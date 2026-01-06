@@ -153,10 +153,10 @@ html, body, #root {
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #e9ecef;
-    display: flex; 
+    display: flex;
     gap: 15px;
     align-items: flex-end;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     margin-bottom: 30px;
 }
 
@@ -191,18 +191,18 @@ html, body, #root {
     font-size: 0.95rem;
     display: flex;
     gap: 5px;
-    padding-bottom: 10px; 
+    padding-bottom: 10px;
 }
 
 .form-actions {
     display: flex;
     gap: 15px;
-    margin-left: auto; 
+    margin-left: auto;
     align-items: flex-end;
 }
 
 .btn-add, .btn-cancel {
-    height: 42px; 
+    height: 42px;
     padding: 0 25px;
     border-radius: 6px;
     font-weight: bold;
@@ -223,7 +223,7 @@ html, body, #root {
 
 .btn-cancel {
     background-color: #ffcccc;
-    color: #c0392b; 
+    color: #c0392b;
     border: 1px solid #ffb3b3;
 }
 
@@ -268,7 +268,7 @@ html, body, #root {
 }
 
 .btn-confirm-delete {
-    background-color: #d32f2f; 
+    background-color: #d32f2f;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -280,3 +280,29 @@ html, body, #root {
     .btn-confirm-delete:hover {
         background-color: #b71c1c;
     }
+
+/*css botao de adicionar*/
+.btn-open-form {
+    height: 42px; 
+    padding: 0 25px;
+    border-radius: 6px; 
+
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background-color: #ffd700; 
+    color: #333;
+    transition: filter 0.2s; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+}
+
+    .btn-open-form:hover {
+        filter: brightness(0.9);
+    }
+
+.actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}

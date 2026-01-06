@@ -3,7 +3,7 @@
     if (!listaProdutos || listaProdutos.length === 0) {
         return (
             <div className="empty-state">
-                <p>Nenhum produto registrado nesta categoria.</p>
+                <p>Nenhum item registrado nesta categoria.</p>
             </div>
         );
     }
@@ -35,6 +35,7 @@
                                     <span className="badge badge-gray">📦 Seco</span>
                                 )}
                             </td>
+
 
                             <td style={{ textAlign: 'center' }}>
                                 <button

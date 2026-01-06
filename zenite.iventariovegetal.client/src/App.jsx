@@ -6,8 +6,8 @@ import Formulario from './components/Formulario.jsx';
 import ModalConfirmacao from './components/ModalConfirmacao.jsx';
 
 function App() {
-    const [estoque, setEstoque] = useState([]); 
-    const [formularioAberto, setFormularioAberto] = useState(false); 
+    const [estoque, setEstoque] = useState([]);
+    const [formularioAberto, setFormularioAberto] = useState(false);
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
 
@@ -57,7 +57,7 @@ function App() {
                             className="btn-open-form"
                             onClick={() => setFormularioAberto(true)}
                         >
-                            + Novo Produto
+                            + Novo Item
                         </button>
                     </div>
                 ) : (
