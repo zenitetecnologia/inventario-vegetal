@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Zenite.IventarioVegetal.Server.Configuration;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
 // Add services to the container.
 
