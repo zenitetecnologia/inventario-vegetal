@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Zenite.IventarioVegetal.Server.Configuration;
 using Zenite.IventarioVegetal.Server.Controllers;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configura a conexão com o Banco de Dados (PostgreSQL)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
