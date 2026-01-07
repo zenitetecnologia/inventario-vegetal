@@ -11,11 +11,8 @@ function App() {
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
     const [itemParaEditar, setItemParaEditar] = useState(null);
-    const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
-    useEffect(() => {
-        carregarDados();
-    }, []);
+    const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
     const carregarDados = async () => {
         try {
@@ -28,6 +25,13 @@ function App() {
             console.error("Erro de conexão com o Backend:", erro);
         }
     };
+
+    useEffect(() => {
+        const buscarDados = async () => {
+            await carregarDados();
+        };
+        buscarDados();
+    }, []);
 
     const salvarProduto = async (produto) => {
         if (produto.id) {
