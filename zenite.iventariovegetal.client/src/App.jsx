@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Tabela from './components/Tabela.jsx';
 import Formulario from './components/Formulario.jsx';
 import ModalConfirmacao from './components/ModalConfirmacao.jsx';
+import Footer from './components/Footer';
 
 function App() {
     const [estoque, setEstoque] = useState([]);
@@ -35,21 +36,18 @@ function App() {
 
     const salvarProduto = async (produto) => {
         if (produto.id) {
-            // Edição
             await fetch(`${API_URL}/${produto.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(produto)
             });
         } else {
-            // Criação
             await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(produto)
             });
         }
-
         carregarDados();
         setFormularioAberto(false);
         setItemParaEditar(null);
@@ -141,6 +139,8 @@ function App() {
                     aoEditar={prepararEdicao}
                 />
             </main>
+
+            <Footer />
         </div>
     );
 }
