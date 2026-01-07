@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Tabela from './components/Tabela.jsx';
@@ -11,14 +11,42 @@ function App() {
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
     const [itemParaEditar, setItemParaEditar] = useState(null);
+    const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
-    const salvarProduto = (produto) => {
-        if (produto.id) {
-            setEstoque(estoque.map(p => p.id === produto.id ? produto : p));
-        } else {
-            const produtoComId = { ...produto, id: Date.now() };
-            setEstoque([...estoque, produtoComId]);
+    useEffect(() => {
+        carregarDados();
+    }, []);
+
+    const carregarDados = async () => {
+        try {
+            const resposta = await fetch(API_URL);
+            if (resposta.ok) {
+                const dados = await resposta.json();
+                setEstoque(dados);
+            }
+        } catch (erro) {
+            console.error("Erro de conexão com o Backend:", erro);
         }
+    };
+
+    const salvarProduto = async (produto) => {
+        if (produto.id) {
+            // Edição
+            await fetch(`${API_URL}/${produto.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(produto)
+            });
+        } else {
+            // Criação
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(produto)
+            });
+        }
+
+        carregarDados();
         setFormularioAberto(false);
         setItemParaEditar(null);
     };
@@ -38,9 +66,10 @@ function App() {
         setModalAberto(true);
     };
 
-    const confirmarRemocao = () => {
+    const confirmarRemocao = async () => {
         if (idParaExcluir !== null) {
-            setEstoque(estoque.filter(item => item.id !== idParaExcluir));
+            await fetch(`${API_URL}/${idParaExcluir}`, { method: 'DELETE' });
+            carregarDados();
         }
         fecharModal();
     };
@@ -107,7 +136,6 @@ function App() {
                     aoRemover={solicitarRemocao}
                     aoEditar={prepararEdicao}
                 />
-
             </main>
         </div>
     );

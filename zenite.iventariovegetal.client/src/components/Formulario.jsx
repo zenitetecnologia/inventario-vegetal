@@ -12,14 +12,7 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
         if (itemInicial) {
             setItem({
                 ...itemInicial,
-                data: itemInicial.data.split('T')[0]
-            });
-        } else {
-            setItem({
-                descricao: '',
-                quantidade: '',
-                data: new Date().toISOString().split('T')[0],
-                geladeira: false
+                data: itemInicial.data ? itemInicial.data.split('T')[0] : ''
             });
         }
     }, [itemInicial]);
@@ -33,6 +26,7 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
 
     return (
         <form className="form-container" onSubmit={handleSubmit}>
+            <h3>{itemInicial ? 'Editar Item' : 'Novo Item'}</h3>
 
             <div className="form-group grow">
                 <label>Descrição</label>
@@ -49,7 +43,6 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
                 <input
                     type="number"
                     step="0.01"
-                    placeholder="0.00"
                     value={item.quantidade}
                     onChange={e => setItem({ ...item, quantidade: e.target.value })}
                 />
@@ -75,13 +68,12 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
                 </label>
             </div>
 
-
             <div className="form-actions">
                 <button type="button" className="btn-cancel" onClick={aoCancelar}>
                     Cancelar
                 </button>
                 <button type="submit" className="btn-add">
-                    {itemInicial ? 'Salvar' : '+ Adicionar'}
+                    Salvar
                 </button>
             </div>
         </form>
