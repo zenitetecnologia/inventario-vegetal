@@ -5,6 +5,7 @@ import Tabela from './components/Tabela.jsx';
 import Formulario from './components/Formulario.jsx';
 import ModalConfirmacao from './components/ModalConfirmacao.jsx';
 import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
 
 function App() {
     const [estoque, setEstoque] = useState([]);
@@ -12,6 +13,8 @@ function App() {
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
     const [itemParaEditar, setItemParaEditar] = useState(null);
+
+    const [menuAberto, setMenuAberto] = useState(false);
 
     const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
@@ -89,7 +92,12 @@ function App() {
 
     return (
         <div className="layout-container">
-            <Header />
+            <Sidebar
+                isOpen={menuAberto}
+                onClose={() => setMenuAberto(false)}
+            />
+
+            <Header aoAbrirMenu={() => setMenuAberto(true)} />
 
             <main className="white-canvas">
                 <ModalConfirmacao
