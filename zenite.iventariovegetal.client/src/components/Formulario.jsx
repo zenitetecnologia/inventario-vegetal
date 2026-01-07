@@ -1,21 +1,22 @@
-﻿import { useState, useEffect } from 'react';
+﻿import { useState } from 'react';
 
 function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
-    const [item, setItem] = useState({
-        descricao: '',
-        quantidade: '',
-        data: new Date().toISOString().split('T')[0],
-        geladeira: false
-    });
 
-    useEffect(() => {
+    const [item, setItem] = useState(() => {
         if (itemInicial) {
-            setItem({
+            return {
                 ...itemInicial,
                 data: itemInicial.data ? itemInicial.data.split('T')[0] : ''
-            });
+            };
+        } else {
+            return {
+                descricao: '',
+                quantidade: '',
+                data: new Date().toISOString().split('T')[0],
+                geladeira: false
+            };
         }
-    }, [itemInicial]);
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
