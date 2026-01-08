@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Zenite.IventarioVegetal.Server.Configuration;
 using Zenite.IventarioVegetal.Server.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Zenite.IventarioVegetal.Server.Controllers
 {
