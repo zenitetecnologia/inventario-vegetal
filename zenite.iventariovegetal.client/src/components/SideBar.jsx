@@ -17,7 +17,6 @@ function Sidebar({ isOpen, onClose }) {
                 <nav className="sidebar-nav">
                     <a href="#" className="menu-item active"> Início</a>
                     <a href="#" className="menu-item"> Sobre</a>
-                    <a href="#" className="menu-item"> Configurações</a>
                 </nav>
 
                 <div className="sidebar-footer">

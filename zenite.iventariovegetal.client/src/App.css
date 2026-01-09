@@ -49,7 +49,7 @@ html, body, #root {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
-    table-layout: fixed; /* ADICIONADO: Garante que as colunas obedeçam as larguras em % */
+    table-layout: fixed; 
 }
 
     .custom-table th {
@@ -96,7 +96,6 @@ html, body, #root {
     color: #616161;
 }
 
-/* ADICIONADO: Estilo do Botão Editar */
 .btn-edit {
     background: none;
     border: none;
@@ -107,7 +106,7 @@ html, body, #root {
 }
 
     .btn-edit:hover {
-        color: #1976d2; /* Azul ao passar o mouse */
+        color: #1976d2; 
         transform: scale(1.2);
     }
 
@@ -116,12 +115,12 @@ html, body, #root {
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
-    color: #555; /* Uniformizando a cor base */
+    color: #555; 
     transition: transform 0.2s, color 0.2s;
 }
 
     .btn-delete:hover {
-        color: #c0392b; /* Vermelho ao passar o mouse */
+        color: #c0392b; 
         transform: scale(1.2);
     }
 
@@ -147,7 +146,7 @@ html, body, #root {
 .spacer {
     height: 40px;
 }
-/*css da parte do total*/
+
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -165,88 +164,122 @@ html, body, #root {
     font-size: 0.9rem;
 }
 
-/*CSS DO FORMULÁRIO*/
 .form-container {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
     border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
     display: flex;
-    gap: 15px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
+    flex-direction: column;
+    gap: 20px; 
+
+    margin: 20px auto;
+    max-width: 500px; 
 }
+
+    .form-container h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 1.3rem;
+        border-bottom: 2px solid #ffd700;
+        padding-bottom: 10px;
+        display: inline-block;
+        width: 100%;
+    }
 
 .form-group {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
     .form-group label {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: bold;
         color: #555;
-        margin-bottom: 5px;
+        margin-bottom: 8px; 
     }
 
     .form-group input {
-        padding: 10px;
+        padding: 12px;
         border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 0.95rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        width: 100%; 
+        box-sizing: border-box; 
     }
 
-.grow {
-    flex-grow: 1;
-    min-width: 200px;
-}
 
 .checkbox-group label {
-    flex-direction: row;
+    flex-direction: row; 
     align-items: center;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1rem;
     display: flex;
-    gap: 5px;
-    padding-bottom: 10px;
+    gap: 10px;
+    padding: 10px 0;
 }
 
+.checkbox-group input {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Botões no final */
 .form-actions {
     display: flex;
+    justify-content: space-between; 
+    align-items: center;
     gap: 15px;
-    margin-left: auto;
-    align-items: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
 }
+
 
 .btn-add, .btn-cancel {
-    height: 42px;
-    padding: 0 25px;
+    height: 48px; 
+    min-width: 120px;
+    padding: 0 20px;
     border-radius: 6px;
-    font-weight: bold;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    border: none;
-    transition: filter 0.2s;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Botão Salvar (Amarelo) */
 .btn-add {
     background-color: #ffd700;
     color: #333;
+    border: 2px solid #ffd700; 
 }
 
     .btn-add:hover {
-        filter: brightness(0.9);
+        background-color: #e6c200;
+        border-color: #e6c200;
+        transform: translateY(-2px); 
     }
 
+/* Botão Cancelar (Vermelho Claro) */
 .btn-cancel {
-    background-color: #ffcccc;
-    color: #c0392b;
-    border: 1px solid #ffb3b3;
+    background-color: #ffebee;
+    color: #c62828;
+    border: 2px solid #ffcdd2; 
 }
 
     .btn-cancel:hover {
-        background-color: #ffb3b3;
+        background-color: #ffcdd2; 
+        color: #b71c1c;
     }
 
 /*css remover item*/
@@ -431,4 +464,167 @@ html, body, #root {
 .app-header {
     background-color: #ffd700 !important;
     color: #333;
+}
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+/* A linha de cada produto */
+.item-lista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    background: white;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Descrição (Nome do produto) */
+.item-descricao {
+    font-size: 1rem;
+    font-weight: 600; 
+    color: #333;
+}
+
+/* Quantidade */
+.item-qtd {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+    .item-qtd small {
+        font-size: 0.8rem;
+        color: #999;
+    }
+
+/* area dos itens*/
+.item-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #777;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+    .btn-icon.edit:hover {
+        color: #f39c12;
+    }
+
+    .btn-icon.delete:hover {
+        color: #e74c3c;
+    }
+
+/*barra total*/
+.barra-total {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.valor-total {
+    background-color: #e0e0e0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/*botao flutuante*/
+.fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}   
+
+.btn-fab {
+    width: 60px;
+    height: 60px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 2rem;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .btn-fab:hover {
+        transform: scale(1.1);
+    }
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #ffd700; /* Amarelo Ouro */
+    display: flex;
+    justify-content: space-around; /* Botões espalhados igualmente */
+    align-items: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 900;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #333;
+    opacity: 0.6; 
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    transition: all 0.2s;
+}
+
+    .nav-item.active {
+        opacity: 1; 
+        font-weight: bold;
+        border-top: 4px solid #333;
+        background-color: #ffdb1a;
+    }
+
+.nav-icon {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+}
+
+/* Ajuste do botão flutuante para não ficar em cima da barra */
+.fab-container {
+    bottom: 80px; /* Subimos ele um pouco mais */
+}
+
+/* Ajuste do container principal para a lista não ficar atrás da barra */
+.white-canvas {
+    padding-bottom: 80px !important;
 }
