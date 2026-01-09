@@ -13,7 +13,7 @@ function App() {
     const [modalAberto, setModalAberto] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
     const [itemParaEditar, setItemParaEditar] = useState(null);
-
+    
     const [menuAberto, setMenuAberto] = useState(false);
 
     const API_URL = 'http://localhost:5000/api/ItemEstoque';
