@@ -23,8 +23,6 @@ function Sidebar({ isOpen, onClose, aoClicarSobre }) {
                     }}>
                         Sobre
                     </a>
-
-                    <a href="#" className="menu-item"> Configurações</a>
                 </nav>
 
                 <div className="sidebar-footer">

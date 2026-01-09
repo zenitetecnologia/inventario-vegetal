@@ -1,4 +1,5 @@
 ﻿import { useState, useEffect, useCallback } from 'react';
+import { jwtDecode } from "jwt-decode";
 import './App.css';
 import Header from './components/Header';
 import Formulario from './components/Formulario.jsx';
@@ -6,10 +7,13 @@ import ModalConfirmacao from './components/ModalConfirmacao.jsx';
 import ModalSobre from './components/ModalSobre.jsx';
 import Sidebar from './components/SideBar';
 import GridProdutos from './components/GridProdutos';
+import Login from './components/Login.jsx';
 
 const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
 function App() {
+    const [usuario, setUsuario] = useState(null);
+
     const [abaAtiva, setAbaAtiva] = useState('geladeira');
     const [estoque, setEstoque] = useState([]);
 
@@ -29,16 +33,31 @@ function App() {
                 setEstoque(dados);
             }
         } catch (erro) {
-            console.error(erro);
+            console.error("Erro ao carregar:", erro);
         }
     }, []);
 
     useEffect(() => {
-        const buscar = async () => {
-            await carregarDados();
-        };
-        buscar();
-    }, [carregarDados]);
+        if (usuario) {
+            const timeoutId = setTimeout(() => {
+                carregarDados();
+            }, 0);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [usuario, carregarDados]);
+
+    const lidarComLoginGoogle = (credentialResponse) => {
+        try {
+            const dadosUsuario = jwtDecode(credentialResponse.credential);
+            setUsuario(dadosUsuario);
+        } catch (error) {
+            console.error("Erro login:", error);
+        }
+    };
+
+    if (!usuario) {
+        return <Login aoFazerLogin={lidarComLoginGoogle} />;
+    }
 
     const salvarProduto = async (produto) => {
         const produtoFormatado = {

@@ -11,70 +11,92 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
         } else {
             return {
                 descricao: '',
-                quantidade: '',
+                quantidade: 0.00,
                 data: new Date().toISOString().split('T')[0],
                 geladeira: false
             };
         }
     });
 
+    const alterarQuantidade = (valor) => {
+        const novaQtd = parseFloat(item.quantidade) + valor;
+        if (novaQtd >= 0) {
+            setItem({ ...item, quantidade: novaQtd });
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!item.descricao || !item.quantidade) return;
-
+        if (!item.descricao) return;
         aoCadastrar({ ...item, quantidade: Number(item.quantidade) });
     };
 
     return (
         <form className="form-container" onSubmit={handleSubmit}>
-            <h3>{itemInicial ? 'Editar Item' : 'Novo Item'}</h3>
 
-            <div className="form-group grow">
-                <label>Descrição</label>
+            <div className="form-group">
+                <label>Descrição <span style={{ color: '#ffd700' }}>*</span></label>
                 <input
+                    className="custom-input"
                     type="text"
-                    autoFocus
                     value={item.descricao}
                     onChange={e => setItem({ ...item, descricao: e.target.value })}
                 />
             </div>
 
             <div className="form-group">
-                <label>Quantidade</label>
-                <input
-                    type="number"
-                    step="0.01"
-                    value={item.quantidade}
-                    onChange={e => setItem({ ...item, quantidade: e.target.value })}
-                />
+                <label>Quantidade <span style={{ color: '#ffd700' }}>*</span></label>
+                <div className="stepper-container">
+                    <span className="stepper-input">
+                        {Number(item.quantidade).toFixed(2).replace('.', ',')}
+                    </span>
+
+                    <button type="button" className="stepper-btn" onClick={() => alterarQuantidade(-1)}>
+                        −
+                    </button>
+                    <button type="button" className="stepper-btn" onClick={() => alterarQuantidade(1)}>
+                        +
+                    </button>
+                </div>
             </div>
 
             <div className="form-group">
                 <label>Data</label>
                 <input
+                    className="custom-input"
                     type="date"
                     value={item.data}
                     onChange={e => setItem({ ...item, data: e.target.value })}
                 />
             </div>
 
-            <div className="form-group checkbox-group">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={item.geladeira}
-                        onChange={e => setItem({ ...item, geladeira: e.target.checked })}
-                    />
-                    Geladeira?
-                </label>
+            <div className="form-group">
+                <label>Geladeira <span style={{ color: '#ffd700' }}>*</span></label>
+                <div className="toggle-group">
+                    <button
+                        type="button"
+                        className={`toggle-btn ${!item.geladeira ? 'selected' : ''}`}
+                        onClick={() => setItem({ ...item, geladeira: false })}
+                    >
+                        N
+                    </button>
+                    <button
+                        type="button"
+                        className={`toggle-btn ${item.geladeira ? 'selected' : ''}`}
+                        onClick={() => setItem({ ...item, geladeira: true })}
+                    >
+                        Y
+                    </button>
+                </div>
             </div>
 
+
             <div className="form-actions">
-                <button type="button" className="btn-cancel" onClick={aoCancelar}>
-                    Cancelar
+                <button type="button" className="btn-text cancel" onClick={aoCancelar}>
+                    Cancel
                 </button>
-                <button type="submit" className="btn-add">
-                    Salvar
+                <button type="submit" className="btn-text save">
+                    Save
                 </button>
             </div>
         </form>
