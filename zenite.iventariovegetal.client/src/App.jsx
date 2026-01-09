@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from "jwt-decode";
-import { googleLogout } from '@react-oauth/google'; 
+import { googleLogout } from '@react-oauth/google';
 import './App.css';
 import Header from './components/Header';
 import Formulario from './components/Formulario.jsx';
@@ -14,7 +14,7 @@ const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
 function App() {
     const [usuario, setUsuario] = useState(null);
-    const [abaAtiva, setAbaAtiva] = useState('geladeira');
+    const [abaAtiva, setAbaAtiva] = useState('prateleira');
     const [estoque, setEstoque] = useState([]);
     const [formularioAberto, setFormularioAberto] = useState(false);
     const [modalAberto, setModalAberto] = useState(false);
@@ -49,23 +49,58 @@ function App() {
         } catch (error) { console.error(error); }
     };
 
-
     const fazerLogout = () => {
-        googleLogout(); 
-        setUsuario(null); 
-        setMenuAberto(false)
+        googleLogout();
+        setUsuario(null);
+        setMenuAberto(false);
     };
 
     if (!usuario) {
         return <Login aoFazerLogin={lidarComLoginGoogle} />;
     }
 
-    const salvarProduto = async (produto) => { /* ...seu código... */ };
+    const salvarProduto = async (produto) => {
+        const produtoFormatado = {
+            ...produto,
+            geladeira: produto.id ? produto.geladeira : (abaAtiva === 'geladeira')
+        };
+
+        try {
+            const url = produtoFormatado.id ? `${API_URL}/${produtoFormatado.id}` : API_URL;
+            const metodo = produtoFormatado.id ? 'PUT' : 'POST';
+
+            const resposta = await fetch(url, {
+                method: metodo,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(produtoFormatado)
+            });
+
+            if (resposta.ok) {
+                carregarDados();
+                setFormularioAberto(false);
+                setItemParaEditar(null);
+            }
+        } catch (erro) {
+            console.error(erro);
+        }
+    };
+
     const prepararEdicao = (produto) => { setItemParaEditar(produto); setFormularioAberto(true); };
     const solicitarRemocao = (id) => { setIdParaExcluir(id); setModalAberto(true); };
-    const confirmarRemocao = async () => { /* ...seu código... */ };
 
-    // Filtros
+    const confirmarRemocao = async () => {
+        if (idParaExcluir !== null) {
+            try {
+                await fetch(`${API_URL}/${idParaExcluir}`, { method: 'DELETE' });
+                carregarDados();
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
+        setModalAberto(false);
+        setIdParaExcluir(null);
+    };
+
     const listaAtual = estoque.filter(item =>
         abaAtiva === 'geladeira' ? item.geladeira === true : item.geladeira === false
     );
@@ -118,11 +153,11 @@ function App() {
             )}
 
             <nav className="bottom-nav">
-                <button className={`nav-item ${abaAtiva === 'geladeira' ? 'active' : ''}`} onClick={() => setAbaAtiva('geladeira')}>
-                    <span className="nav-icon">❄️</span><span>Geladeira</span>
-                </button>
                 <button className={`nav-item ${abaAtiva === 'prateleira' ? 'active' : ''}`} onClick={() => setAbaAtiva('prateleira')}>
                     <span className="nav-icon">📦</span><span>Prateleira</span>
+                </button>
+                <button className={`nav-item ${abaAtiva === 'geladeira' ? 'active' : ''}`} onClick={() => setAbaAtiva('geladeira')}>
+                    <span className="nav-icon">❄️</span><span>Geladeira</span>
                 </button>
             </nav>
         </div>
