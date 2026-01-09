@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-function Sidebar({ isOpen, onClose, aoClicarSobre }) {
+function Sidebar({ isOpen, onClose, aoClicarSobre, usuario, aoSair }) {
     return (
         <>
             <div
@@ -15,7 +15,9 @@ function Sidebar({ isOpen, onClose, aoClicarSobre }) {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <a href="#" className="menu-item active"> Início</a>
+                    <a href="#" className="menu-item active" onClick={(e) => { e.preventDefault(); onClose(); }}>
+                        Início
+                    </a>
 
                     <a href="#" className="menu-item" onClick={(e) => {
                         e.preventDefault();
@@ -25,8 +27,25 @@ function Sidebar({ isOpen, onClose, aoClicarSobre }) {
                     </a>
                 </nav>
 
-                <div className="sidebar-footer">
-                    <span>Versão 1.0</span>
+                <div className="sidebar-footer-user">
+                    {usuario && (
+                        <div className="user-profile">
+                            <img
+                                src={usuario.picture}
+                                alt="Avatar"
+                                className="user-avatar"
+                                referrerPolicy="no-referrer"
+                            />
+                            <div className="user-info">
+                                <span className="user-name">{usuario.name}</span>
+                                <span className="user-email">{usuario.email}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <button className="btn-logout" onClick={aoSair}>
+                        Sair da Conta ➜
+                    </button>
                 </div>
             </div>
         </>

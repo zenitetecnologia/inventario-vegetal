@@ -78,14 +78,14 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
                         className={`toggle-btn ${!item.geladeira ? 'selected' : ''}`}
                         onClick={() => setItem({ ...item, geladeira: false })}
                     >
-                        N
+                        Não
                     </button>
                     <button
                         type="button"
                         className={`toggle-btn ${item.geladeira ? 'selected' : ''}`}
                         onClick={() => setItem({ ...item, geladeira: true })}
                     >
-                        Y
+                        Sim
                     </button>
                 </div>
             </div>
@@ -93,10 +93,10 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
 
             <div className="form-actions">
                 <button type="button" className="btn-text cancel" onClick={aoCancelar}>
-                    Cancel
+                    Cancelar
                 </button>
                 <button type="submit" className="btn-text save">
-                    Save
+                    Salvar
                 </button>
             </div>
         </form>

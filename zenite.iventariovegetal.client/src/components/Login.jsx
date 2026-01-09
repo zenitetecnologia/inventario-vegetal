@@ -5,8 +5,8 @@ function Login({ aoFazerLogin }) {
     return (
         <div className="login-container">
             <div className="login-card">
-                <h1 className="login-title">Z&ecirc;nite Tecnologia</h1>
-                <p className="login-subtitle">Invent&aacute;rio Vegetal</p>
+                <h1 className="login-title">Invent&aacute;rio Vegetal</h1>
+                <p className="login-subtitle">Z&ecirc;nite Tecnologia</p>
 
                 <div className="google-btn-wrapper">
                     <GoogleLogin

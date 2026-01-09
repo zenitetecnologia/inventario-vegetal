@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from "jwt-decode";
+import { googleLogout } from '@react-oauth/google'; 
 import './App.css';
 import Header from './components/Header';
 import Formulario from './components/Formulario.jsx';
@@ -13,15 +14,12 @@ const API_URL = 'http://localhost:5000/api/ItemEstoque';
 
 function App() {
     const [usuario, setUsuario] = useState(null);
-
     const [abaAtiva, setAbaAtiva] = useState('geladeira');
     const [estoque, setEstoque] = useState([]);
-
     const [formularioAberto, setFormularioAberto] = useState(false);
     const [modalAberto, setModalAberto] = useState(false);
     const [sobreAberto, setSobreAberto] = useState(false);
     const [menuAberto, setMenuAberto] = useState(false);
-
     const [idParaExcluir, setIdParaExcluir] = useState(null);
     const [itemParaEditar, setItemParaEditar] = useState(null);
 
@@ -32,183 +30,99 @@ function App() {
                 const dados = await resposta.json();
                 setEstoque(dados);
             }
-        } catch (erro) {
-            console.error("Erro ao carregar:", erro);
-        }
+        } catch (erro) { console.error(erro); }
     }, []);
 
     useEffect(() => {
         if (usuario) {
-            const timeoutId = setTimeout(() => {
-                carregarDados();
-            }, 0);
+            const timeoutId = setTimeout(() => { carregarDados(); }, 0);
             return () => clearTimeout(timeoutId);
         }
     }, [usuario, carregarDados]);
 
     const lidarComLoginGoogle = (credentialResponse) => {
         try {
-            const dadosUsuario = jwtDecode(credentialResponse.credential);
-            setUsuario(dadosUsuario);
-        } catch (error) {
-            console.error("Erro login:", error);
-        }
+            if (credentialResponse.credential) {
+                const dadosUsuario = jwtDecode(credentialResponse.credential);
+                setUsuario(dadosUsuario);
+            }
+        } catch (error) { console.error(error); }
+    };
+
+
+    const fazerLogout = () => {
+        googleLogout(); 
+        setUsuario(null); 
+        setMenuAberto(false)
     };
 
     if (!usuario) {
         return <Login aoFazerLogin={lidarComLoginGoogle} />;
     }
 
-    const salvarProduto = async (produto) => {
-        const produtoFormatado = {
-            ...produto,
-            geladeira: produto.id ? produto.geladeira : (abaAtiva === 'geladeira')
-        };
+    const salvarProduto = async (produto) => { /* ...seu código... */ };
+    const prepararEdicao = (produto) => { setItemParaEditar(produto); setFormularioAberto(true); };
+    const solicitarRemocao = (id) => { setIdParaExcluir(id); setModalAberto(true); };
+    const confirmarRemocao = async () => { /* ...seu código... */ };
 
-        try {
-            let resposta;
-            if (produtoFormatado.id) {
-                resposta = await fetch(`${API_URL}/${produtoFormatado.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(produtoFormatado)
-                });
-            } else {
-                resposta = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(produtoFormatado)
-                });
-            }
-
-            if (resposta.ok) {
-                carregarDados();
-                setFormularioAberto(false);
-                setItemParaEditar(null);
-            }
-        } catch (erro) {
-            console.error(erro);
-        }
-    };
-
-    const prepararEdicao = (produto) => {
-        setItemParaEditar(produto);
-        setFormularioAberto(true);
-    };
-
-    const cancelarFormulario = () => {
-        setFormularioAberto(false);
-        setItemParaEditar(null);
-    };
-
-    const solicitarRemocao = (id) => {
-        setIdParaExcluir(id);
-        setModalAberto(true);
-    };
-
-    const confirmarRemocao = async () => {
-        if (idParaExcluir !== null) {
-            try {
-                await fetch(`${API_URL}/${idParaExcluir}`, { method: 'DELETE' });
-                carregarDados();
-            } catch (erro) {
-                console.error(erro);
-            }
-        }
-        fecharModal();
-    };
-
-    const fecharModal = () => {
-        setModalAberto(false);
-        setIdParaExcluir(null);
-    };
-
-    const abrirSobre = () => {
-        setMenuAberto(false);
-        setSobreAberto(true);
-    };
-
-    const itensGeladeira = estoque.filter(item => item.geladeira === true);
-    const itensSecos = estoque.filter(item => item.geladeira === false);
-
-    const listaAtual = abaAtiva === 'geladeira' ? itensGeladeira : itensSecos;
-    const totalAtual = listaAtual.reduce((acc, item) => acc + item.quantidade, 0);
+    // Filtros
+    const listaAtual = estoque.filter(item =>
+        abaAtiva === 'geladeira' ? item.geladeira === true : item.geladeira === false
+    );
+    const totalAtual = listaAtual.reduce((acc, item) => acc + (Number(item.quantidade) || 0), 0);
 
     return (
         <div className="layout-container">
             <Sidebar
                 isOpen={menuAberto}
                 onClose={() => setMenuAberto(false)}
-                aoClicarSobre={abrirSobre}
+                aoClicarSobre={() => { setMenuAberto(false); setSobreAberto(true); }}
+                usuario={usuario}
+                aoSair={fazerLogout}
             />
 
             <Header aoAbrirMenu={() => setMenuAberto(true)} />
 
             <main className="white-canvas" style={{ padding: 0 }}>
-
                 <ModalConfirmacao
                     estaAberto={modalAberto}
                     aoConfirmar={confirmarRemocao}
-                    aoCancelar={fecharModal}
+                    aoCancelar={() => setModalAberto(false)}
                 />
-
-                <ModalSobre
-                    estaAberto={sobreAberto}
-                    aoFechar={() => setSobreAberto(false)}
-                />
+                <ModalSobre estaAberto={sobreAberto} aoFechar={() => setSobreAberto(false)} />
 
                 {formularioAberto ? (
-                    <div style={{ padding: '20px' }}>
-                        <Formulario
-                            aoCadastrar={salvarProduto}
-                            aoCancelar={cancelarFormulario}
-                            itemInicial={itemParaEditar}
-                        />
-                    </div>
+                    <Formulario
+                        aoCadastrar={salvarProduto}
+                        aoCancelar={() => { setFormularioAberto(false); setItemParaEditar(null); }}
+                        itemInicial={itemParaEditar}
+                    />
                 ) : (
                     <>
                         <div className="barra-total">
                             <span>TOTAL</span>
-                            <span className="valor-total">
-                                {totalAtual.toFixed(2).replace('.', ',')}
-                            </span>
+                            <span className="valor-total">{totalAtual.toFixed(2).replace('.', ',')}</span>
                             <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: '#888' }}>
-                                {abaAtiva === 'geladeira' ? 'Geladeira' : 'Prateleira'}
+                                {abaAtiva === 'geladeira' ? 'Refrigerado' : 'Prateleira'}
                             </span>
                         </div>
-
-                        <GridProdutos
-                            listaProdutos={listaAtual}
-                            aoRemover={solicitarRemocao}
-                            aoEditar={prepararEdicao}
-                        />
+                        <GridProdutos listaProdutos={listaAtual} aoRemover={solicitarRemocao} aoEditar={prepararEdicao} />
                     </>
                 )}
             </main>
 
             {!formularioAberto && (
                 <div className="fab-container">
-                    <button className="btn-fab" onClick={() => setFormularioAberto(true)}>
-                        +
-                    </button>
+                    <button className="btn-fab" onClick={() => setFormularioAberto(true)}>+</button>
                 </div>
             )}
 
             <nav className="bottom-nav">
-                <button
-                    className={`nav-item ${abaAtiva === 'geladeira' ? 'active' : ''}`}
-                    onClick={() => setAbaAtiva('geladeira')}
-                >
-                    <span className="nav-icon">❄️</span>
-                    <span>Geladeira</span>
+                <button className={`nav-item ${abaAtiva === 'geladeira' ? 'active' : ''}`} onClick={() => setAbaAtiva('geladeira')}>
+                    <span className="nav-icon">❄️</span><span>Geladeira</span>
                 </button>
-
-                <button
-                    className={`nav-item ${abaAtiva === 'prateleira' ? 'active' : ''}`}
-                    onClick={() => setAbaAtiva('prateleira')}
-                >
-                    <span className="nav-icon">📦</span>
-                    <span>Prateleira</span>
+                <button className={`nav-item ${abaAtiva === 'prateleira' ? 'active' : ''}`} onClick={() => setAbaAtiva('prateleira')}>
+                    <span className="nav-icon">📦</span><span>Prateleira</span>
                 </button>
             </nav>
         </div>

@@ -487,3 +487,66 @@ html, body, #root {
     font-size: 1.4rem;
     margin-bottom: 2px;
 }
+
+/* --- SIDEBAR USUÁRIO --- */
+.sidebar-footer-user {
+    margin-top: auto; /* Empurra para o fundo */
+    padding: 20px;
+    border-top: 1px solid #eee;
+    background-color: #fafafa;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffd700;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: 0.8rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ffcdd2;
+    color: #c62828;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+    .btn-logout:hover {
+        background-color: #ffebee;
+    }
