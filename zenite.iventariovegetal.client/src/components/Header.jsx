@@ -1,9 +1,11 @@
-﻿function Header({ aoAbrirMenu }) {
+﻿import { Menu } from '@mui/icons-material';
+
+function Header({ aoAbrirMenu }) {
     return (
         <header className="app-header">
 
             <button className="btn-menu" onClick={aoAbrirMenu}>
-                ☰
+                <Menu fontSize="large" />
             </button>
 
             <h1>Inventário Vegetal</h1>
@@ -22,6 +24,8 @@
                     font-size: 24px;
                     cursor: pointer;
                     padding: 5px;
+                    display: flex; /* Para alinhar o ícone SVG */
+                    align-items: center;
                 }
             `}</style>
         </header>

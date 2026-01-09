@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { Close, Logout } from '@mui/icons-material';
 
 function Sidebar({ isOpen, onClose, aoClicarSobre, usuario, aoSair }) {
     return (
@@ -11,7 +12,9 @@ function Sidebar({ isOpen, onClose, aoClicarSobre, usuario, aoSair }) {
             <div className={`sidebar-menu ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <h3>Menu</h3>
-                    <button className="btn-close" onClick={onClose}>✖</button>
+                    <button className="btn-close" onClick={onClose}>
+                        <Close />
+                    </button>
                 </div>
 
                 <nav className="sidebar-nav">
@@ -43,8 +46,8 @@ function Sidebar({ isOpen, onClose, aoClicarSobre, usuario, aoSair }) {
                         </div>
                     )}
 
-                    <button className="btn-logout" onClick={aoSair}>
-                        Sair da Conta ➜
+                    <button className="btn-logout" onClick={aoSair} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        Sair da Conta <Logout fontSize="small" />
                     </button>
                 </div>
             </div>

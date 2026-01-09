@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { Delete, Edit } from '@mui/icons-material';
 
 function GridProdutos({ listaProdutos, aoRemover, aoEditar }) {
     if (listaProdutos.length === 0) {
@@ -10,7 +11,6 @@ function GridProdutos({ listaProdutos, aoRemover, aoEditar }) {
             {listaProdutos.map((item) => (
                 <div key={item.id} className="item-lista">
 
-                    {/* LADO ESQUERDO: Texto */}
                     <div className="item-info">
                         <span className="item-descricao">
                             {item.descricao}
@@ -20,13 +20,12 @@ function GridProdutos({ listaProdutos, aoRemover, aoEditar }) {
                         </span>
                     </div>
 
-                    {/* LADO DIREITO: Ícones */}
                     <div className="item-actions">
                         <button className="btn-icon delete" onClick={() => aoRemover(item.id)}>
-                            🗑️
+                            <Delete />
                         </button>
                         <button className="btn-icon edit" onClick={() => aoEditar(item)}>
-                            ✏️
+                            <Edit />
                         </button>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 ﻿import { useState } from 'react';
+import { Add, Remove, CalendarToday, Description } from '@mui/icons-material';
 
 function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
 
@@ -11,7 +12,7 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
         } else {
             return {
                 descricao: '',
-                quantidade: 0.00,
+                quantidade: 0,
                 data: new Date().toISOString().split('T')[0],
                 geladeira: false
             };
@@ -19,9 +20,18 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
     });
 
     const alterarQuantidade = (valor) => {
-        const novaQtd = parseFloat(item.quantidade) + valor;
-        if (novaQtd >= 0) {
+        const qtdAtual = parseFloat(item.quantidade) || 0;
+        const novaQtd = (qtdAtual + valor).toFixed(2);
+
+        if (parseFloat(novaQtd) >= 0) {
             setItem({ ...item, quantidade: novaQtd });
+        }
+    };
+
+    const lidarComMudancaManual = (e) => {
+        const valor = e.target.value;
+        if (valor === '' || parseFloat(valor) >= 0) {
+            setItem({ ...item, quantidade: valor });
         }
     };
 
@@ -33,69 +43,79 @@ function Formulario({ aoCadastrar, aoCancelar, itemInicial }) {
 
     return (
         <form className="form-container" onSubmit={handleSubmit}>
+            <div className="form-header-line"></div>
 
             <div className="form-group">
-                <label>Descrição <span style={{ color: '#ffd700' }}>*</span></label>
+                <label className="modern-label"><Description fontSize="small" /> Descrição</label>
                 <input
-                    className="custom-input"
+                    className="modern-input"
                     type="text"
                     value={item.descricao}
+                    autoFocus
                     onChange={e => setItem({ ...item, descricao: e.target.value })}
                 />
             </div>
 
             <div className="form-group">
-                <label>Quantidade <span style={{ color: '#ffd700' }}>*</span></label>
-                <div className="stepper-container">
-                    <span className="stepper-input">
-                        {Number(item.quantidade).toFixed(2).replace('.', ',')}
-                    </span>
-
-                    <button type="button" className="stepper-btn" onClick={() => alterarQuantidade(-1)}>
-                        −
+                <label className="modern-label">Quantidade</label>
+                <div className="modern-stepper">
+                    <button type="button" className="stepper-btn-mini" onClick={() => alterarQuantidade(-0.01)}>
+                        <Remove fontSize="small" />
                     </button>
-                    <button type="button" className="stepper-btn" onClick={() => alterarQuantidade(1)}>
-                        +
-                    </button>
-                </div>
-            </div>
 
-            <div className="form-group">
-                <label>Data</label>
-                <input
-                    className="custom-input"
-                    type="date"
-                    value={item.data}
-                    onChange={e => setItem({ ...item, data: e.target.value })}
-                />
-            </div>
+                    <input
+                        type="number"
+                        className="stepper-input-clean"
+                        value={item.quantidade}
+                        onChange={lidarComMudancaManual}
+                        step="0.01"
+                        min="0"
+                    />
 
-            <div className="form-group">
-                <label>Geladeira <span style={{ color: '#ffd700' }}>*</span></label>
-                <div className="toggle-group">
-                    <button
-                        type="button"
-                        className={`toggle-btn ${!item.geladeira ? 'selected' : ''}`}
-                        onClick={() => setItem({ ...item, geladeira: false })}
-                    >
-                        Não
-                    </button>
-                    <button
-                        type="button"
-                        className={`toggle-btn ${item.geladeira ? 'selected' : ''}`}
-                        onClick={() => setItem({ ...item, geladeira: true })}
-                    >
-                        Sim
+                    <button type="button" className="stepper-btn-mini" onClick={() => alterarQuantidade(0.01)}>
+                        <Add fontSize="small" />
                     </button>
                 </div>
             </div>
 
+            {/* Agrupando Data e Geladeira na mesma linha para compactar */}
+            <div className="form-row">
+                <div className="form-group half">
+                    <label className="modern-label"><CalendarToday fontSize="small" /> Data</label>
+                    <input
+                        className="modern-input"
+                        type="date"
+                        value={item.data}
+                        onChange={e => setItem({ ...item, data: e.target.value })}
+                    />
+                </div>
 
-            <div className="form-actions">
-                <button type="button" className="btn-text cancel" onClick={aoCancelar}>
+                <div className="form-group half">
+                    <label className="modern-label">Geladeira</label>
+                    <div className="modern-toggle">
+                        <button
+                            type="button"
+                            className={`toggle-pill ${!item.geladeira ? 'active' : ''}`}
+                            onClick={() => setItem({ ...item, geladeira: false })}
+                        >
+                            Não
+                        </button>
+                        <button
+                            type="button"
+                            className={`toggle-pill ${item.geladeira ? 'active' : ''}`}
+                            onClick={() => setItem({ ...item, geladeira: true })}
+                        >
+                            Sim
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="form-actions-modern">
+                <button type="button" className="btn-modern secondary" onClick={aoCancelar}>
                     Cancelar
                 </button>
-                <button type="submit" className="btn-text save">
+                <button type="submit" className="btn-modern primary">
                     Salvar
                 </button>
             </div>

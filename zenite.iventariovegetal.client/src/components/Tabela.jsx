@@ -1,4 +1,5 @@
 ﻿import { Component } from 'react';
+import { Kitchen, Inventory2, Edit, Delete } from '@mui/icons-material';
 
 class Tabela extends Component {
     render() {
@@ -38,9 +39,13 @@ class Tabela extends Component {
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
                                     {produto.geladeira ? (
-                                        <span className="badge badge-blue">❄️ Geladeira</span>
+                                        <span className="badge badge-blue" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                                            <Kitchen fontSize="small" /> Geladeira
+                                        </span>
                                     ) : (
-                                        <span className="badge badge-gray">📦 Seco</span>
+                                        <span className="badge badge-gray" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                                            <Inventory2 fontSize="small" /> Seco
+                                        </span>
                                     )}
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
@@ -48,16 +53,17 @@ class Tabela extends Component {
                                         className="btn-edit"
                                         onClick={() => aoEditar(produto)}
                                         title="Editar"
-                                        style={{ marginRight: '10px' }}
+                                        style={{ marginRight: '10px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                                     >
-                                        Editar
+                                        <Edit fontSize="small" /> Editar
                                     </button>
                                     <button
                                         className="btn-delete"
                                         onClick={() => aoRemover(produto.id)}
                                         title="Excluir"
+                                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                                     >
-                                        Excluir
+                                        <Delete fontSize="small" /> Excluir
                                     </button>
                                 </td>
                             </tr>

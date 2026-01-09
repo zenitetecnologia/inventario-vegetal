@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { googleLogout } from '@react-oauth/google';
+import { Inventory2, Kitchen, Add } from '@mui/icons-material';
 import './App.css';
 import Header from './components/Header';
 import Formulario from './components/Formulario.jsx';
@@ -60,9 +61,9 @@ function App() {
     }
 
     const salvarProduto = async (produto) => {
+
         const produtoFormatado = {
-            ...produto,
-            geladeira: produto.id ? produto.geladeira : (abaAtiva === 'geladeira')
+            ...produto
         };
 
         try {
@@ -148,16 +149,20 @@ function App() {
 
             {!formularioAberto && (
                 <div className="fab-container">
-                    <button className="btn-fab" onClick={() => setFormularioAberto(true)}>+</button>
+                    <button className="btn-fab" onClick={() => setFormularioAberto(true)}>
+                        <Add fontSize="large" />
+                    </button>
                 </div>
             )}
 
             <nav className="bottom-nav">
                 <button className={`nav-item ${abaAtiva === 'prateleira' ? 'active' : ''}`} onClick={() => setAbaAtiva('prateleira')}>
-                    <span className="nav-icon">📦</span><span>Prateleira</span>
+                    <Inventory2 className="nav-icon" />
+                    <span>Prateleira</span>
                 </button>
                 <button className={`nav-item ${abaAtiva === 'geladeira' ? 'active' : ''}`} onClick={() => setAbaAtiva('geladeira')}>
-                    <span className="nav-icon">❄️</span><span>Geladeira</span>
+                    <Kitchen className="nav-icon" />
+                    <span>Geladeira</span>
                 </button>
             </nav>
         </div>
